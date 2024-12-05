@@ -7,13 +7,15 @@ dotenv.config();
 const genAI = new GoogleGenerativeAI(process.env.API_KEY);
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
+const crossLingualPrePrompt = "Please analyze the sentiment of each of the following sentences. For each, determine if it contains Positive, Negative, Neutral, or Mixed sentiment. Provide your response in the format TestId - Sentiment";
+
 // Reusable function to generate content for multiple prompts
-async function generateContentForAllPrompts(prompts) {
+async function generateContentForAllPrompts(prePrompt, prompts) {
     const batchedPrompt = prompts.map((prompt, index) => 
         `Test ${index + 1}: ${prompt}`
     ).join('\n\n');
 
-    const fullPrompt = `Please analyze the sentiment of each of the following sentences. For each, determine if it contains Positive, Negative, Neutral, or Mixed sentiment. Provide your response in the format "TestId - Sentiment".\n\n${batchedPrompt}`;
+    const fullPrompt = prePrompt +"\n\n" + batchedPrompt;
     console.log(fullPrompt +"\n");
     try {
         const result = await model.generateContent(fullPrompt);
@@ -155,7 +157,7 @@ async function runCrossLingualSentimentTest() {
         "Neutral",
     ];
 
-    const rawResults = await generateContentForAllPrompts(crossLingualPrompts);
+    const rawResults = await generateContentForAllPrompts(crossLingualPrePrompt, crossLingualPrompts);
     const parsedResults = parseResults(rawResults);
 
     console.log("Cross-Lingual Sentiment Test Results:");
@@ -163,4 +165,4 @@ async function runCrossLingualSentimentTest() {
 }
 
 // Run the test
-// runCrossLingualSentimentTest();
+runCrossLingualSentimentTest();
