@@ -398,6 +398,93 @@ async function runComplexSentimentTest() {
     matchResponse(complex, parsedResults);
 }
 
+
+async function runBasicEmotionSentimentTest() {
+    const basicEmotionPrompts = [
+        "I got ice cream today",
+        "Even though it's a rainy day, her smile was like sunshine.",
+        "I can’t help but feel scared in the dark.",
+        "I feel a deep sense of dread whenever I hear those eerie noises in the night.",
+        "A paralyzing terror seized her as she found herself enveloped in the sinister shadows, where every indistinct sound seemed to whisper imminent peril.",
+        "Although the day was filled with countless challenges, her genuine laughter and bright spirit made everything seem more bearable",
+        "Despite the pervasive melancholy that tinged the day's events, her radiant smile and infectious joy illuminated the room, casting a warmth that was nothing short of enchanting.",
+        "Even though she smiled, her eyes told a story of hidden pain.",
+        "the weather today was exquisite",
+        "Her laughter filled the room, but behind those joyful eyes, a shadow of sorrow lingered, unseen by others.",
+        "Her effervescent laughter reverberated through the room, yet beneath the facade of joy, an undercurrent of profound sorrow lay dormant, veiled by her radiant exterior.",
+        "Effervescent delight permeated the atmosphere.",
+        "The children danced and sang joyfully in the sunlit meadow, their carefree laughter echoing through the trees as butterflies fluttered around them, and their hearts filled with pure happiness.",
+        "The rain fell softly as she sat alone, feeling the weight of her sadness.",
+        "As twilight descended, a profound loneliness enveloped her heart, and the weight of unspoken sorrows pressed heavily on her soul.",
+        "Enveloped in a shroud of melancholia, she wandered through the desolate landscape of her thoughts, the echo of her unfulfilled desires resonating in the hollow chambers of her heart.",
+        "The dark clouds hung heavy in the sky as he sat alone, feeling the emptiness inside.",
+        "She felt pure joy as she watched the sunrise, the sky painted with brilliant hues of orange and pink.",
+        "The somber sky mirrored her mood as she quietly wept, feeling the ache of lost dreams and broken promises.",
+        "In the twilight of her existence, she languished in a chasm of despair, the haunting echoes of her shattered aspirations reverberating through the desolate corridors of her soul.",
+        "The convivial congregation reveled in ebullient jubilation as the resplendent fireworks illuminated the nocturnal firmament.",
+        "I can't believe you did that!",
+        "I can't believe you had the audacity to do that!",
+        "Your flagrant disregard for basic decency is utterly reprehensible!",
+        "I can't believe you lied to me!",
+        "I can't believe you had the nerve to betray my trust like that!",
+        "Your egregious betrayal has left me seething with indignation and incredulity!",
+        "I can't believe you did that! You promised you wouldn't, but you went ahead and did it anyway. It's so frustrating and hurtful. I trusted you, and now I feel completely betrayed.",
+        "The warm sun cast a golden glow over the park as families and friends gathered for a day of fun. Children laughed as they played games and chased each other",
+        "I can't believe you had the nerve to do that! After everything we've been through, you still chose to betray my trust. It's infuriating and deeply hurtful.",
+        "I am tired of your incessant, petulant whining and your chronic inability to comprehend even the most rudimentary concepts.",
+        "Bathed in the resplendent glow of the golden afternoon sun, the verdant park thrummed with the effervescent energy of exuberant families. Children, their laughter echoing melodiously"
+
+    ] // prompts in here
+    // const prePrompt = "Please tell me if this sentence contains Positive, Negative, Neutral, or Mixed sentiment: ";
+    const basicEmotionExpectedOutput = [
+        'Positive',
+        'Mixed',
+        'Negative',
+        'Negative',
+        'Negative',
+        'Mixed',
+        'Mixed',
+        'Negative',
+        'Positive',
+        'Negative',
+        'Negative',
+        'Positive',
+        'Positive',
+        'Negative',
+        'Negative',
+        'Negative',
+        'Negative',
+        'Positive',
+        'Negative',
+        'Negative',
+        'Positive',
+        'Positive',
+        'Negative',
+        'Negative',
+        'Negative',
+        'Negative',
+        'Negative',
+        'Negative',
+        'Negative',
+        'Positive',
+        'Negative',
+        'Negative',
+        'Positive'
+
+    ] // expected output here
+    
+    const rawResults = await generateContentForAllPrompts(crossLingualPrePrompt, basicEmotionPrompts);
+    const parsedResults = parseResults(rawResults);
+
+    console.log("Cross-Lingual Sentiment Test Results:");
+    matchResponse(basicEmotionExpectedOutput, parsedResults);
+
+}
+// Run the test
+//runCrossLingualSentimentTest();
+//runComplexSentimentTest();
+runBasicEmotionSentimentTest();
+=======
 // Test case for negation handling sentiment analysis
 async function runNegationHandlingSentimentTest() {
     const negationHandlingPrompts = [
@@ -668,8 +755,3 @@ async function runNegationHandlingSentimentTest() {
     console.log("Negation Handling Sentiment Test Results:");
     matchResponse(negationHandlingExpectedOutput, parsedResults);
 }
-
-// Run the test
-//runCrossLingualSentimentTest();
-//runComplexSentimentTest();
-//runNegationHandlingSentimentTest();
