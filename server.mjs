@@ -29,7 +29,7 @@ async function generateContentForAllPrompts(prePrompt, prompts) {
     }
 }
 
-function parseResults(rawResults) {
+async function parseResults(rawResults) {
     const lines = rawResults.split('\n');
     return lines.map(line => {
         const match = line.match(/Test (\d+) - (Positive|Negative|Neutral|Mixed)/i);
@@ -39,7 +39,7 @@ function parseResults(rawResults) {
 
 
 // Function to match expected and actual results
-function matchResponse(expectedResults, actualResults) {
+async function matchResponse(expectedResults, actualResults) {
     let passed = 0;
     const total = expectedResults.length;
 
@@ -107,7 +107,6 @@ async function runCrossLingualSentimentTest() {
         "Tình hình hiện tại remains ổn định.",
         "Phân tích cho thấy typical patterns.",
     ];
-    const prePrompt = "Please tell me if this sentence contains Positive, Negative, Neutral, or Mixed sentiment: ";
     const crossLingualExpectedOutput = [
         "Positive",
         "Positive",
@@ -158,12 +157,13 @@ async function runCrossLingualSentimentTest() {
         "Neutral",
         "Neutral",
     ];
-
+    const startTime = performance.now(); // Start timer for the entire test
     const rawResults = await generateContentForAllPrompts(crossLingualPrePrompt, crossLingualPrompts);
-    const parsedResults = parseResults(rawResults);
-
+    const parsedResults = await parseResults(rawResults);
+    const endTime = performance.now(); // End timer for the entire test
     console.log("Cross-Lingual Sentiment Test Results:");
     matchResponse(crossLingualExpectedOutput, parsedResults);
+    console.log(`Total Execution Time for Test: ${(endTime - startTime).toFixed(2)} ms`);
 }
 
 async function runComplexSentimentTest() {
@@ -388,12 +388,13 @@ async function runComplexSentimentTest() {
     'Mixed',
     'Mixed',
     ];
-
+    const startTime = performance.now();
     const rawResults = await generateContentForAllPrompts(complexPrePrompt,complexPrompts);
-    const parsedResults = parseResults(rawResults);
-
+    const parsedResults = await parseResults(rawResults);
+    const endTime = performance.now(); // End timer for the entire test
     console.log("Complex Sentiment Test Results:");
     matchResponse(complex, parsedResults);
+    console.log(`Total Execution Time for Test: ${(endTime - startTime).toFixed(2)} ms`);
 }
 
 
@@ -433,7 +434,6 @@ async function runBasicEmotionSentimentTest() {
         "Bathed in the resplendent glow of the golden afternoon sun, the verdant park thrummed with the effervescent energy of exuberant families. Children, their laughter echoing melodiously"
 
     ] // prompts in here
-    // const prePrompt = "Please tell me if this sentence contains Positive, Negative, Neutral, or Mixed sentiment: ";
     const basicEmotionExpectedOutput = [
         'Positive',
         'Mixed',
@@ -470,12 +470,13 @@ async function runBasicEmotionSentimentTest() {
         'Positive'
 
     ] // expected output here
-    
+    const startTime = performance.now(); // Start timer for the entire test
     const rawResults = await generateContentForAllPrompts(crossLingualPrePrompt, basicEmotionPrompts);
-    const parsedResults = parseResults(rawResults);
-
-    console.log("Cross-Lingual Sentiment Test Results:");
+    const parsedResults = await parseResults(rawResults);
+    const endTime = performance.now(); // End timer for the entire test
+    console.log("Basic Emotion Test Results:");
     matchResponse(basicEmotionExpectedOutput, parsedResults);
+    console.log(`Total Execution Time for Test: ${(endTime - startTime).toFixed(2)} ms`);
 
 }
 
@@ -742,15 +743,17 @@ async function runNegationHandlingSentimentTest() {
         "Positive",
     ];
 
+    const startTime = performance.now(); // Start timer for the entire test
     const rawResults = await generateContentForAllPrompts(negationHandlingPrePrompt, negationHandlingPrompts);
-    const parsedResults = parseResults(rawResults);
-
-    console.log("Negation Handling Sentiment Test Results:");
+    const parsedResults = await parseResults(rawResults);
+    const endTime = performance.now(); // End timer for the entire test
+    console.log("Negation Emotion Test Results:");
     matchResponse(negationHandlingExpectedOutput, parsedResults);
+    console.log(`Total Execution Time for Test: ${(endTime - startTime).toFixed(2)} ms\n`);
 }
 
 // Run the test
-//runComplexSentimentTest();
+// runComplexSentimentTest();
 // runBasicEmotionSentimentTest();
-//runNegationHandlingSentimentTest();
+// runNegationHandlingSentimentTest();
 // runCrossLingualSentimentTest();
