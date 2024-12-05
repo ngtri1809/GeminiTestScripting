@@ -105,7 +105,7 @@ async function runCrossLingualSentimentTest() {
         "Tình hình hiện tại remains ổn định.",
         "Phân tích cho thấy typical patterns.",
     ];
-    const prePrompt = "Please tell me if this sentence contains Positive, Negative, Neutral, or Mixed sentiment: ";
+    
     const crossLingualExpectedOutput = [
         "Positive",
         "Positive",
